@@ -14,7 +14,7 @@ local Rooms = workspace.Rooms
 local GameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 
 local Window = ImGui:CreateWindow({
-	Title = `{GameInfo.Name} | Zhìliáo`,
+	Title = `{GameInfo.Name} | Symera`,
 	Size = UDim2.new(0, 350, 0, 350),
 	Position = UDim2.new(0.5, 0, 0, 70),
 	CloseCallback = CloseCallback
@@ -51,14 +51,14 @@ local ItemsWhitelist = {
 }
 
 local Positions = {
-	["Quadro"] = CFrame.new(-397, 3, -11),
-	["Saguão"] = CFrame.new(-277, 4, 0),
-	["Escritório"] = CFrame.new(-484, 4, 11),
-	["Porão"] = CFrame.new(-523, -16, -35),
-	["Piquenique"] = CFrame.new(-615, 4, 6),
-	["Frente do telhado"] = CFrame.new(-265, 30, 0),
-	["Final do corredor"] = CFrame.new(-486, 4, -1),
-	["Sótão"] = CFrame.new(-367, -28, -260)
+	["Painting"] = CFrame.new(-397, 3, -11),
+	["Lobby"] = CFrame.new(-277, 4, 0),
+	["Office"] = CFrame.new(-484, 4, 11),
+	["Basement"] = CFrame.new(-523, -16, -35),
+	["Picnic"] = CFrame.new(-615, 4, 6),
+	["Roof front"] = CFrame.new(-265, 30, 0),
+	["Hallway end"] = CFrame.new(-486, 4, -1),
+	["Attic"] = CFrame.new(-367, -28, -260)
 }
 
 local Overwrites = { --// Name, Properities
@@ -119,16 +119,16 @@ local Overwrites = { --// Name, Properities
 }
 
 local Spams = {
-	["WeatherTv"] = "TV do Tempo",
-	["Radio"] = "Mutar Radio",
-    ["AtticRadio"] = "Mutar Radio do Sótão",
-	["Curtain"] = "Cortinas",
-	["Warm"] = "Agachar",
-	["OfficeTV"] = "TV do Escritório",
-	["OfficePC"] = "Computador do Escritório",
-	["Cup"] = "Xícara de Pelúcia",
-	["Opey"] = "Abrir Quadro",
-	["Op"] = "Abrir Estante de Livros"
+	["WeatherTv"] = "Weather Tv",
+	["Radio"] = "Radio mute",
+    ["AtticRadio"] = "Attic radio mute",
+	["Curtain"] = "Curtains",
+	["Warm"] = "Crouch",
+	["OfficeTV"] = "Office TV",
+	["OfficePC"] = "Office Computer",
+	["Cup"] = "Cup plushie",
+	["Opey"] = "Open Painting",
+	["Op"] = "Open Booksheilf"
 }
 
 local ServerTab = Window:CreateTab({
@@ -138,10 +138,10 @@ local ServerTab = Window:CreateTab({
 
 --// Viewport frame
 local PreviewHeader = ServerTab:CollapsingHeader({
-	Title = "Prévia do Coletável",
+	Title = "Preview",
 }):SetOpen(false)
 
-local Viewport = No DoorsHeader:Viewport({
+local Viewport = PreviewHeader:Viewport({
 	Size = UDim2.new(1, 0, 0, 120),
 	Clone = true, --// Otherwise will parent
 })
@@ -159,7 +159,7 @@ end)
 ServerTab:Separator()
 
 local ItemsHeader = ServerTab:CollapsingHeader({
-	Title = "Coletáveis 🧹",
+	Title = "Tools 🧹",
 })
 
 --// Specific matches
@@ -407,7 +407,7 @@ CreateButtons({
 })
 
 local Toggles = ServerTab:CollapsingHeader({
-	Title = "Interativos 🖱️",
+	Title = "Interactive 🖱️",
 })
 
 local function AddSpam(Title, Delay, Callback)
@@ -443,7 +443,7 @@ for Spam, Title in next, Spams do
 	end)
 end
 
-AddSpam("Abrir Portas das Salas", 0.5, function()
+AddSpam("Open Room Doors", 0.5, function()
 	for _, Room: Model in next, Rooms:GetChildren() do
 		local Door = Room:FindFirstChild("Door")
 		local DoorClosed = Door.Door1
@@ -456,7 +456,7 @@ AddSpam("Abrir Portas das Salas", 0.5, function()
 	end
 end)
 
-AddSpam("Abrir Portas da Frente", 0.5, function()
+AddSpam("Open Front Doors", 0.5, function()
 	local MainDoor = workspace.MainDoor
 
 	for _, Touch in next, MainDoor:GetDescendants() do 
@@ -467,7 +467,7 @@ AddSpam("Abrir Portas da Frente", 0.5, function()
 	end
 end)
 
-AddSpam("Abrir Porta do Escritório", 0.5, function()
+AddSpam("Open Office Door", 0.5, function()
 	local Office = workspace.Office
 	local Door = Office.Door
 	local Open = Door.Ok
@@ -475,7 +475,7 @@ AddSpam("Abrir Porta do Escritório", 0.5, function()
 	FireTouchPart(Open)
 end)
 
-AddSpam("Abrir Porta do Sótão", 0.2, function()
+AddSpam("Open Basement", 0.2, function()
 	local Basement = workspace.Room 
 	local Door = Basement.Door 
 	local Open = Door.Main 
@@ -483,7 +483,7 @@ AddSpam("Abrir Porta do Sótão", 0.2, function()
 	FireTouchPart(Open)
 end)
 
-AddSpam("Spam Códigos de Porão", 0.4, function()
+AddSpam("Spam Basement Codes", 0.4, function()
 	local Length = 4
 
 	for i = 1, Length do
@@ -498,11 +498,11 @@ function CloseCallback()
 end
 
 local Destruction = ServerTab:CollapsingHeader({
-	Title = "Baguncinha 💥",
+	Title = "Destruction 💥",
 })
 
 Destruction:Button({
-	Text = "Puxar Cadeiras",
+	Text = "Bring chairs",
 	Callback = function(self)
 		local Character = LocalPlayer.Character
 		local Humanoid = Character.Humanoid
@@ -532,7 +532,7 @@ Destruction:Button({
 })
 
 Destruction:Button({
-	Text = "Alcance das Ferramentas",
+	Text = "Tool Reach",
 	Callback = function(self)
 		local Character = LocalPlayer.Character
 		local Humanoid = Character.Humanoid
@@ -550,7 +550,7 @@ Destruction:Button({
 
 --// Client Tab
 local ClientTab = Window:CreateTab({
-	Name = "Local"
+	Name = "Client"
 })
 
 --// Teleports
@@ -577,7 +577,7 @@ for _, Room: Model in next, Rooms:GetChildren() do
 end
 
 ClientTab:Checkbox({
-	Label = "Sem Portas",
+	Label = "No doors",
 	Callback = function(self, Value)
 		for Door, Parent in next, Doors do
 			Door.Parent = not Value and Parent or nil
@@ -587,11 +587,11 @@ ClientTab:Checkbox({
 
 --// Weather
 ClientTab:Separator({
-	Text = "Chuva 🌧️"
+	Text = "Weather 🌧️"
 })
 
 ClientTab:Checkbox({
-	Label = "Sem Chuva",
+	Label = "No Rain",
 	Callback = function(self, Value)
 		LocalPlayer.PlayerScripts.Rai.RainyDay.Enabled = not Value
 
@@ -602,7 +602,7 @@ ClientTab:Checkbox({
 	end,
 })
 ClientTab:Button({
-	Text = "Tirar Chuva",
+	Text = "Stop Rain",
 	Callback = function(self)
 		ReplicatedStorage.Season.Value = "Sunny"
 		ReplicatedStorage.Sound.Rain:Stop()
